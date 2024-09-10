@@ -1,0 +1,41 @@
+// function every_second(items) {
+//     // const element = list_ref(tail(items), 0);
+//     // const rest_of_list = tail(items));
+//     // const new_list = list(element);
+//     return length(items) <= 0
+//         ? null
+//         : length(items) % 2 === 0
+//         ? every_second(tail(items))
+//         : append(list_ref(items, 0), every_second(tail(items)));
+//         // ? pair(list_ref(items, 0), every_second(tail(items)))
+//         // : every_second(tail(items));
+// }
+
+
+function every_second(items) {
+    function helper(n, items) {
+        return length(items) <= 0
+        ? null
+        : n % 2 === 0
+        ? helper(n + 1, tail(items))
+        : pair(list_ref(items, 0), helper(n + 1, tail(items))); 
+    }
+    return helper(0, items);
+}
+
+function every_second(items) {
+    return (is_null(items) || is_null(tail(items)))
+        ? null
+        : pair(head(tail(items)),
+            every_second(tail(tail(items))));
+}
+
+function every_second(items) {
+    function helper(xs, result) {
+        return is_null(xs) || is_null(tail(xs))
+            ? reverse(result)
+            : helper(tail(tail(xs)), pair(head(tail(xs)), result));
+    }
+}
+
+every_second(list("a", "x", "b", "y", "c", "z", "d"));
