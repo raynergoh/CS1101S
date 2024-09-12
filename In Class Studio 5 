@@ -1,0 +1,42 @@
+
+function every_second(items) {
+    return (is_null(items) || is_null(tail(items)))
+        ? null
+        : pair(head(tail(items)),
+            every_second(tail(tail(items))));
+}
+
+function every_alternate(items) {
+    return is_null(items)
+        ? null
+        :is_null(tail(items))
+        ? pair(head(items), null)
+        : pair(head(items), every_alternate(tail(tail(items))));
+}
+
+
+function sums(items) {
+    const list_of_even = every_alternate(items); // get list of even numbers
+    const list_of_odd = every_second(items);     // get list of odd numbers
+    function adder(list, counter) {             // construct function adder
+        return is_null(list)
+            ? counter
+            : adder(tail(list), counter + head(list));
+    }
+    const sum_even = adder(list_of_even, 0);// add the list of even numbers with adder
+    const sum_odd = adder(list_of_odd, 0);// add the list of odd numbers with adder
+    return list(sum_even, sum_odd);
+}
+
+function sums(xs) {
+    if(is_null(xs)) {
+        return list(0,0);
+    } else if (is_null(tail(xs))) {
+        return list(head(xs), 0);
+    } else {
+        const wish = sums(tail(tail(xs)));
+        return list(head(xs) + head(wish), head(tail(xs)) + head(tail(wish)));
+        }
+    }
+
+sums(list(1, 2, 3, 4, 5));
