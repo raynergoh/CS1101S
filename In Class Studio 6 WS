@@ -1,0 +1,47 @@
+
+function remove_duplicates(lst) {
+    return accumulate(((x, y) => (is_null(member(x, y))
+                            ? pair(x, y)
+                            : y)), null, lst);
+}
+
+function subsets(xs) {
+    // const n = length(xs);
+    // const comb = subsets(tail(xs));
+    
+    return is_null(xs)
+        ? null
+        : map(x => pair(head(xs), x), subsets(tail(xs)));
+}
+
+// two parts subsets(tail(xs)) and map(x => pair(head(xs), x), subset(tail(xs)))
+subsets(list(1,2,3));
+
+function permutation(s) {
+    if (is_null(tail(s))) {
+            return pair(list(s), pair(list(null), null)); 
+        
+    } else {
+        function helper(counter) {
+            const combi_B = permutation(tail(s));
+            const combi_C = map(c => permutation(remove(c, s)), s);
+            return counter < length(s)
+                ? pair(combi_C, helper(counter + 1))
+                : is_null;
+        }
+                
+        return helper(0);
+    }
+}
+
+
+function permutations(s) {
+    return is_null(s)
+        ? list(null)
+        : accumulate(append, null,
+            map(x => map(p => pair(x, p), 
+                permutations(remove(x, s))),
+            s));
+}
+
+// permutation(list(1,2));
