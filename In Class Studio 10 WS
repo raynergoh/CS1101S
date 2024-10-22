@@ -36,21 +36,22 @@ function cc(amount, kinds_of_coins) {
 // The memoized version.
 // n is the amount in cents, and k is the number of denominations.
 function mcc(n, k) {
-    if (n < 0 || k < 0) {
-        return 0;
-    }
-    // Your solution here.
-    if (read(n, k) !== undefined) {
+    // if (n < 0 || k < 0) {
+    //     return 0;
+    // }
+    if (n >= 0 && k >= 0 && read(n, k) !== undefined) {
         return read(n, k);
     } else {
         const result = n === 0 ? 1
           : n < 0 || k === 0 ? 0
           : mcc(n, k - 1) +
-             mcc(n - first_denomination(k), k);
-        display(result);
+            mcc(n - first_denomination(k), k);
         write(n, k, result);
         return result;
     }
 }
+
+// a) function cc is suitable for memoization as there are alot of duplicate function calls
+// c) O(nk) in time and space
 
 mcc(365, 5);  // Expected result: 1730
